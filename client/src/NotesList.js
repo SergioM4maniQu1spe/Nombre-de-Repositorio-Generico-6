@@ -1,19 +1,22 @@
 import React from 'react';
 import Note from './Note';
 
-const NotesList = ({ notes, removeNote, updateNote }) => {
+
+const NotesList = (props) => {
+
+
 
   // render JSX
   return (
     <div className="card-columns">
-      {notes.map((note) => (
+      {props.notas.map(nota => (
         <Note
-          id={note._id}
-          key={note._id}
-          initialTitle={note.title}
-          initialText={note.text}
-          removeNote={removeNote}
-          updateNote={updateNote}
+          id={nota._id}
+          key={nota._id}
+          title={nota.title}
+          text={nota.text}
+          removeNote={props.removeNote}
+          updateNote={props.updateNote}
         />
       ))}
     </div>

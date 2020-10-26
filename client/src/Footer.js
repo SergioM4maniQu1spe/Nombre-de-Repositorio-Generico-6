@@ -1,7 +1,7 @@
 import React from 'react';
 
-// footer component
-const Footer = () => {
+const Footer = (props) => {
+  // render JSX
   return (
     <div className="text-center mb-3">
       <hr />

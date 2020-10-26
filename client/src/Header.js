@@ -1,11 +1,10 @@
 import React from 'react';
 
-// header component
-// con title prop
-const Header = ({ title }) => {
+const Header = (props) => {
+  // render JSX
   return (
     <nav className="justify-content-center navbar navbar-expand-lg navbar-dark bg-dark">
-      <a className="navbar-brand" href="/#">{title}</a>
+      <a className="navbar-brand" href="/#">{props.title}</a>
     </nav>
   );
 };

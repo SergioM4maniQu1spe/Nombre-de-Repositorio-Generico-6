@@ -2,18 +2,19 @@ import React, { useState } from 'react';
 
 const NoteForm = ({ addNote }) => {
 
-  // state hook para el form
+
+
   const [title, setTitle] = useState('');
   const [text, setText] = useState('');
 
-  // handlers
   const handleSubmit = e => {
     e.preventDefault();
+
     addNote({
       title: title,
       text: text
     });
-    // blanquear formulario
+
     setTitle('');
     setText('');
   };
@@ -36,8 +37,8 @@ const NoteForm = ({ addNote }) => {
         <textarea
           id="text"
           className="form-control"
-          value={text}
           rows="4"
+          value={text}
           onChange={e => setText(e.target.value)}
         >
         </textarea>

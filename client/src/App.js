@@ -1,77 +1,70 @@
-// imports
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Header from './Header';
-import NotesList from './NotesList';
-import NoteForm from './NoteForm';
 import Footer from './Footer';
+import Header from './Header';
+import NoteForm from './NoteForm';
+import NotesList from './NotesList';
+import axios from 'axios';
 
 const App = () => {
 
-  // useState hook (las notas de la lista)
-  const [notes, setNotes] = useState([]);
+  // estado
+  const [notas, setNotas] = useState([]);
 
-  // useEffect hook (para fetchear la data al cargar)
   useEffect(() => {
     axios.get('/api/notes')
       .then(res => {
-        setNotes(res.data.notes);
+        console.log(res.data.notes);
+        const notasNuevas = [...notas, ...res.data.notes]
+        setNotas(notasNuevas);
       });
   }, []);
 
-  // CRUD functions
-  // create note
-  const addNote = note => {
-    axios.post('/api/notes', note)
-      .then(res => {
-        const newNotes = [res.data, ...notes];
-        setNotes(newNotes);
-      });
-  };
-
-  // update note
   const updateNote = (id, title, text) => {
-    const updatedNote = {
+    console.log(id, title, text);
+    const notaActualizada = {
       title: title,
       text: text
     };
-    axios.put('/api/notes/' + id, updatedNote)
+    axios.put('/api/notes/' + id, notaActualizada)
       .then(res => {
-        const newNotes = notes.map(note =>
-          note.id === id ? updatedNote : note
+        console.log(res.data);
+        const notasActualizadas = notas.map(nota =>
+          nota.id === id ? notaActualizada : nota
         );
-        setNotes(newNotes);
+        setNotas(notasActualizadas);
       });
   };
 
-  // delete note
+  const addNote = note => {
+    axios.post('/api/notes', note)
+      .then(res => {
+        const nuevasNotas = [res.data, ...notas];
+        setNotas(nuevasNotas)
+      });
+  };
+
   const removeNote = (id) => {
     axios.delete('/api/notes/' + id)
       .then(res => {
-        const newNotes = notes.filter(note => note._id !== id);
-        setNotes(newNotes);
-    });
+        const nuevoArrayDeNotas = notas.filter(note => note._id !== id);
+        setNotas(nuevoArrayDeNotas);
+      });
   };
+
+
 
   // render JSX
   return (
     <div>
-      <Header title='Notas'/>
+      <Header title="Notas con React" />
       <div className="container mt-3">
-        <NoteForm
-          addNote={addNote}
-        />
+        <NoteForm addNote={addNote} />
         <hr />
-        <NotesList
-          notes={notes}
-          removeNote={removeNote}
-          updateNote={updateNote}
-        />
+        <NotesList notas={notas} updateNote={updateNote} removeNote={removeNote} />
       </div>
       <Footer />
     </div>
   );
 };
 
-// export
 export default App;
